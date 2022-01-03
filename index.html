@@ -26,11 +26,13 @@
   <table>
     <tr>
       <td class="height">Object Height<br />[ meter ]</td>
+      <td class="los">Line of Sight<br />[ meter ]</td>
       <td class="los">Line of Sight<br />[ kilometer ]</td>
     </tr>
     <tr v-for="item in los">
       <td class="height">{{ item.height }}</td>
-      <td class="los">{{ Math.floor(item.los) }}</td>
+      <td class="los">{{ Math.round(item.los) }}</td>
+      <td class="los">{{ Math.round(item.los/1000) }}</td>
     </tr>
   </table>
 </div>
