@@ -1,54 +1,64 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
 <style>
-    table {
-        border-collapse: collapse;
-    }
-    td {
-        padding: 5px;
-        padding-left: 10px;
-        padding-right: 10px;
-        text-align: center;
-        border: solid 1px;
-        font-weight: bold;
-        font-family: monospace;
-        font-size: 20px;
-    }
-    .height {
-        color: #007;
-    }
-    .los {
-        color: #070;
-    }
+  table {
+    border-collapse: collapse;
+  }
+  td {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    border: solid 1px;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 20px;
+  }
+  .height {
+    color: #007;
+  }
+  .los {
+    color: #070;
+  }
 </style>
 
 <div id="app">
-    <table>
-        <tr>
-            <td class="height">Object Height<br>[ meter ]</td>
-            <td class="los">Line of Sight<br>[ kilometer ]</td>
-        </tr>
-        <tr v-for="item in los">
-            <td class="height">{{ item.height }}</td>
-            <td class="los">{{ Math.floor(item.los) }}</td>
-        </tr>
-    </table>
+  <table>
+    <tr>
+      <td class="height">Object Height<br />[ meter ]</td>
+      <td class="los">Line of Sight<br />[ kilometer ]</td>
+    </tr>
+    <tr v-for="item in los">
+      <td class="height">{{ item.height }}</td>
+      <td class="los">{{ Math.floor(item.los) }}</td>
+    </tr>
+  </table>
 </div>
 
 <script>
-    const EARTH_RADIUS=6371000
+  const EARTH_RADIUS = 6371000;
 
-    function los(height){
-        const effHeight = EARTH_RADIUS + height
-        return Math.sqrt(effHeight*effHeight - EARTH_RADIUS*EARTH_RADIUS)
-    }
+  function los(height) {
+    const effHeight = EARTH_RADIUS + height;
+    return Math.sqrt(effHeight * effHeight - EARTH_RADIUS * EARTH_RADIUS);
+  }
 
   var app = new Vue({
     el: "#app",
     data: {
-      los: Array(90).fill(0).map((_,i)=>({height:i*100, los:los(i*100)}))
+      los: Array(90)
+        .fill(0)
+        .map((_, i) => ({ height: i * 100, los: los(i * 100) })),
     },
   });
 
-  document.title = "Line of Sight on Earth Surface Calculator"
+  document.title = "Line of Sight on Earth Surface Calculator";
+
+  var link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.getElementsByTagName("head")[0].appendChild(link);
+  }
+  link.href = "https://hyperbotauthor.github.io/lineofsight/favicon.ico";
 </script>
