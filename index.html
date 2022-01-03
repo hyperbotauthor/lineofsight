@@ -20,6 +20,10 @@
   .los {
     color: #070;
   }
+  .rad {
+    color: #770;
+    font-size: 14px;
+  }
 </style>
 
 <div id="app">
@@ -28,11 +32,17 @@
       <td class="height">Object Height<br />[ meter ]</td>
       <td class="los">Line of Sight<br />[ meter ]</td>
       <td class="los">Line of Sight<br />[ kilometer ]</td>
+      <td class="rad">Angle<br />[ radian ]</td>
+      <td class="rad">Arc<br />[ meter ]</td>
+      <td class="rad">Arc Diff<br />[ meter ]</td>
     </tr>
     <tr v-for="item in los">
       <td class="height">{{ item.height }}</td>
       <td class="los">{{ Math.round(item.los) }}</td>
       <td class="los">{{ Math.round(item.los/1000) }}</td>
+      <td class="rad">{{ item.rad }} PI</td>
+      <td class="rad">{{ item.arc }}</td>
+      <td class="rad">{{ item.los - item.arc }}</td>
     </tr>
   </table>
 </div>
@@ -42,7 +52,18 @@
 
   function los(height) {
     const effHeight = EARTH_RADIUS + height;
+
     return Math.sqrt(effHeight * effHeight - EARTH_RADIUS * EARTH_RADIUS);
+  }
+
+  function rad(height) {
+    const tan = los(height) / EARTH_RADIUS;
+
+    return Math.atan(tan);
+  }
+
+  function arc(height) {
+    return rad(height) * EARTH_RADIUS;
   }
 
   var app = new Vue({
@@ -50,7 +71,12 @@
     data: {
       los: Array(90)
         .fill(0)
-        .map((_, i) => ({ height: i * 100, los: los(i * 100) })),
+        .map((_, i) => ({
+          height: i * 100,
+          los: los(i * 100),
+          rad: rad(i * 100) / Math.PI,
+          arc: arc(i * 100),
+        })),
     },
   });
 
