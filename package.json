@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "serve": "http-server",
+    "pretty":"prettier -w index.html"
+  },
+  "dependencies": {
+    "http-server": "^14.0.0",
+    "prettier": "^2.5.1"
+  }
+}
